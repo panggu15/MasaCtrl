@@ -70,9 +70,9 @@ class MutualSelfAttentionControl(AttentionBase):
         out = torch.cat([out_u, out_c], dim=0)
 
         print(v.shape)
-        v[1:] = v[0].unsqueeze(0).expand(v[1:].shape[0], *v[0].shape)
-        out = torch.einsum("h i j, h j d -> h i d", attn, v)
-        out = rearrange(out, "h (b n) d -> b n (h d)", b=b)
+        # v[1:] = v[0].unsqueeze(0).expand(v[1:].shape[0], *v[0].shape)
+        # out = torch.einsum("h i j, h j d -> h i d", attn, v)
+        # out = rearrange(out, "h (b n) d -> b n (h d)", b=b)
         
         return out
 
