@@ -71,7 +71,8 @@ class MutualSelfAttentionControl(AttentionBase):
 
         v[16:] = v[:16]
         out = torch.einsum("h i j, h j d -> h i d", attn, v)
-        out = self.batch_to_head_dim(out)
+        b = q.shape[0] // num_heads
+        out = rearrange(out, "h (b n) d -> b n (h d)", b=b)
         
         return out
 
