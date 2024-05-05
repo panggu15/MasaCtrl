@@ -71,9 +71,9 @@ class MutualSelfAttentionControl(AttentionBase):
 
 
         out_u1 = self.attn_batch(qu, ku[:num_heads], vu[:num_heads], sim[:num_heads], attnu, is_cross, place_in_unet, num_heads, **kwargs)
-        out_u2 = self.attn_batch(qu, ku[:num_heads], vu[num_heads:], sim[:num_heads], attnu, is_cross, place_in_unet, num_heads, **kwargs)
+        out_u2 = self.attn_batch(qu, ku[num_heads:], vu[:num_heads], sim[:num_heads], attnu, is_cross, place_in_unet, num_heads, **kwargs)
         out_c1 = self.attn_batch(qc, kc[:num_heads], vc[:num_heads], sim[:num_heads], attnc, is_cross, place_in_unet, num_heads, **kwargs)
-        out_c2 = self.attn_batch(qc, kc[:num_heads], vc[num_heads:], sim[:num_heads], attnc, is_cross, place_in_unet, num_heads, **kwargs)
+        out_c2 = self.attn_batch(qc, kc[num_heads:], vc[:num_heads], sim[:num_heads], attnc, is_cross, place_in_unet, num_heads, **kwargs)
         out = torch.cat([out_u1[:1], out_u2[:1], out_c1[:1], out_c2[:1]], dim=0)
         # v[16:] = v[:16]
         # out = self.attn_batch(q, k, v, sim, attnc, is_cross, place_in_unet, num_heads, **kwargs)
