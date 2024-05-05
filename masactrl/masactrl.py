@@ -69,8 +69,9 @@ class MutualSelfAttentionControl(AttentionBase):
         out_c = self.attn_batch(qc, kc[:num_heads], vc[:num_heads], sim[:num_heads], attnc, is_cross, place_in_unet, num_heads, **kwargs)
         out = torch.cat([out_u, out_c], dim=0)
 
-        v[16:] = v[:16]
-        out = self.attn_batch(q, k, v, sim, attnc, is_cross, place_in_unet, num_heads, **kwargs)
+        print(out.shape)
+        # v[16:] = v[:16]
+        # out = self.attn_batch(q, k, v, sim, attnc, is_cross, place_in_unet, num_heads, **kwargs)
         # out = torch.einsum("h i j, h j d -> h i d", attn, v)
         # b = q.shape[0] // num_heads
         # out = rearrange(out, "h (b n) d -> b n (h d)", b=b)
