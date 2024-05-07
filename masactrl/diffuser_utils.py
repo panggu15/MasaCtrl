@@ -109,7 +109,7 @@ class MasaCtrlPipeline(StableDiffusionPipeline):
         unconditioning=None,
         neg_prompt=None,
         ref_intermediate_latents=None,
-        return_intermediates=False,
+        return_intermediates=False, s=None,
         **kwds):
         DEVICE = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
         if isinstance(prompt, list):
@@ -172,6 +172,8 @@ class MasaCtrlPipeline(StableDiffusionPipeline):
                 latents_ref = ref_intermediate_latents[-1 - i]
                 _, latents_cur = latents.chunk(2)
                 latents = torch.cat([latents_ref, latents_cur])
+                if s is not None and i < s:
+                    latents = torch.cat([latents_ref, latents_ref])
 
             if guidance_scale > 1.:
                 model_inputs = torch.cat([latents] * 2)
